@@ -8,10 +8,14 @@ package com.sakis.anthologium.photos;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -24,7 +28,7 @@ public class PhotoView extends Pane {
     VBox leftVBox, rightVBox;
     JFXButton btn1, btn2, btn3;
     JFXTextField searchTextField;
-    
+    TilePane tilePane;
 
     public PhotoView() {
 
@@ -46,11 +50,19 @@ public class PhotoView extends Pane {
         HBox innerHBox = new HBox();
         innerHBox.setId("innerhbox");
         innerHBox.getChildren().addAll(searchIcon, searchTextField);
+
+        tilePane = new TilePane(Orientation.HORIZONTAL, 10, 10);
+        tilePane.setPrefHeight(200);
+        tilePane.setId("tilepane");
+        tilePane.setPrefRows(1);
         
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(tilePane);
+        scrollPane.setPannable(true);
         // TODO : complete here the left vbox
-        leftVBox.getChildren().addAll(innerHBox);
-        
-        
+        leftVBox.setFillWidth(true);
+        leftVBox.getChildren().addAll(innerHBox, scrollPane);
+
         // right vbox
         rightVBox = new VBox();
         rightVBox.setId("rightvbox");
@@ -71,6 +83,22 @@ public class PhotoView extends Pane {
         bigHBox.getStyleClass().add("testbox");
         bigHBox.getChildren().addAll(leftVBox, rightVBox);
         getChildren().add(bigHBox);
+    }
+
+    public TilePane getTilePane() {
+        return tilePane;
+    }
+    
+    public void populateTilePane(ObservableList<Image> images) {
+        this.tilePane.setPrefColumns(images.size());
+        for (int i=0; i<images.size(); i++) {
+            Image img = images.get(i);
+            ImageView iv = new ImageView(img);
+            iv.setFitHeight(150);
+            iv.setFitWidth(150);
+            iv.setPreserveRatio(true);
+            this.tilePane.getChildren().add(iv);
+        }
     }
 
 }

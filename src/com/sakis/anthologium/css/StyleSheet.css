@@ -29,6 +29,9 @@
 #leftvbox {
     -fx-pref-width: 1000;
     -fx-padding: 5 5 5 5;
+}
+
+.tilepane {
     -fx-background-color: black;
 }
 

@@ -34,6 +34,7 @@ public class PhotoModel {
 
     private ObservableList<Image> currentImages;
 
+
     /**
      * Constructor
      */
@@ -114,4 +115,9 @@ public class PhotoModel {
         }
     }
 
+    
+    
+     public ObservableList<Image> getCurrentImages() {
+        return currentImages;
+    }
 }
