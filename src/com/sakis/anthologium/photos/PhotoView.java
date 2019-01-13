@@ -46,8 +46,11 @@ public class PhotoView extends Pane {
         HBox innerHBox = new HBox();
         innerHBox.setId("innerhbox");
         innerHBox.getChildren().addAll(searchIcon, searchTextField);
-
+        
         // TODO : complete here the left vbox
+        leftVBox.getChildren().addAll(innerHBox);
+        
+        
         // right vbox
         rightVBox = new VBox();
         rightVBox.setId("rightvbox");
