@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sakis.anthologium.photos;
 
 import com.sakis.anthologium.util.Database;
@@ -28,13 +23,15 @@ public class PhotoModel {
     private Connection connection;
     private StringProperty searchStringProperty = new SimpleStringProperty("");
 
+
     private ObservableList<PhotoData> photoDataList;
     private ObservableList<PhotoActorData> photoActorDataList;
     private PhotoData currentPhotoData;
 
     private ObservableList<Image> currentImages;
+    private Image currentImage;
 
-
+    
     /**
      * Constructor
      */
@@ -65,6 +62,13 @@ public class PhotoModel {
         }
     }
 
+    /**
+     * read data from database into PhotoDataList, CurrentPhotoData and
+     * CurrentImages
+     *
+     * @param searchString
+     * @throws IOException
+     */
     private void readPhotoDataList(StringProperty searchString) throws IOException {
         photoDataList.clear();
         currentImages.clear();
@@ -90,8 +94,8 @@ public class PhotoModel {
             while (resultSet.next()) {
                 int photoId = resultSet.getInt("photo_id");
                 InputStream is = resultSet.getBinaryStream("image");
-
-                currentImages.add(new Image(is));
+                currentImage = new Image(is);
+                currentImages.add(currentImage);
 
                 ByteArrayOutputStream buffer = new ByteArrayOutputStream();
                 int nRead;
@@ -116,8 +120,26 @@ public class PhotoModel {
     }
 
     
-    
-     public ObservableList<Image> getCurrentImages() {
+    /**
+     * Return the CurrentImages list
+     * @return 
+     */
+    public ObservableList<Image> getCurrentImages() {
         return currentImages;
     }
+
+
+    public void setSearchStringProperty(String searchString) {
+        this.searchStringProperty.set(searchString);
+    }
+
+
+    public PhotoData getCurrentPhotoData() {
+        return currentPhotoData;
+    }
+
+    public Image getCurrentImage() {
+        return this.currentImage;
+    }
+    
 }
